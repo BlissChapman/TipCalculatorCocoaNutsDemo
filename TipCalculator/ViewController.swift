@@ -9,6 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var mealPriceSlider: UISlider!
+    @IBOutlet weak var percentTipControl: UISegmentedControl!
+    @IBOutlet weak var mealPriceLabel: UILabel!
+    @IBOutlet weak var tipTotalLabel: UILabel!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +25,29 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func mealPriceSliderChanged(sender: UISlider) {
+        mealPriceLabel.text = NSString(format: "$%.2f", mealPriceSlider.value) as String
+        calculateTip()
+    }
 
+    @IBAction func percentTipControlChanged(sender: UISegmentedControl) {
+        calculateTip()
+    }
+    
+    func calculateTip() {
+        var percent: Double!
+        switch percentTipControl.selectedSegmentIndex {
+        case 0: percent = 0.05
+        case 1: percent = 0.1
+        case 2: percent = 0.12
+        case 3: percent = 0.15
+        case 4: percent = 0.2
+        default: 0.15
+        }
+        
+        tipTotalLabel.text = NSString(format: "$%.2f", Double(mealPriceSlider.value) * percent) as String
+    }
 
 }
 
